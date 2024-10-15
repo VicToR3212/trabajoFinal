@@ -1,0 +1,28 @@
+{%extends "base.html"%} 
+{%block title%}__ esto es sine___{%endblock%} 
+
+
+{% block content %} 
+
+{%for p in peliculas %}
+<li>
+  <h3>
+    {{p.genero }} {{p.nombre}} {{p.review}} 
+    {% if p.imagen %}
+    <p>
+        <img src="data:image/png;base64,{{ p.imagen}}">
+    </p>
+    {% endif %}
+   
+
+
+
+  </h3>
+  <a href="{% url 'apps.publicaciones:mostrar_publicacion' p.id %}">ver</a>
+  <a href="{% url 'apps.publicaciones:editar_publicacion' p.id %}">edit</a>
+  <a href="{% url 'apps.publicaciones:eliminar_publicacion' p.id %}"
+    >eliminar</a
+  >
+</li>
+{%endfor%} 
+{% endblock %}

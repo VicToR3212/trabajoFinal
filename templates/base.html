@@ -1,0 +1,53 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="{% static '/css/barranv.css' %}"
+      type="text/css"
+      media="screen"
+    />
+  </head>
+
+  <body>
+    <header>
+      <nav>
+        {% block title %} {% endblock %}
+        <ul>
+          <li>
+            <a href="{% url 'apps.publicaciones:mostrarTodo_publicacion'%}"
+              >inicio</a
+            >
+          </li>
+          <li>
+            <a href="{% url 'apps.usuario:crear_usuario'%}">cuentanueva</a>
+          </li>
+          <li><a href="{% url 'apps.usuario:iniciarsecion'%}">r</a></li>
+
+          <li>
+            <a href="{% url 'apps.publicaciones:crear_publicacion'%}"
+              >publicar</a
+            >
+          </li>
+          {%if user.is_authenticated%}
+          <li><a href="{% url 'apps.usuario:iniciarsecion'%}">logear</a></li>
+          {%else%}
+          <li><a href="">deslogeo</a></li>
+
+          {%endif%}
+        </ul>
+      </nav>
+      {% block content %}
+
+      <a></a>
+
+      {% endblock %}
+    </header>
+    <footer>
+      <h3>todo sobre nosotrossss</h3>
+    </footer>
+  </body>
+</html>
