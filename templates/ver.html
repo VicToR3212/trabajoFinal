@@ -1,30 +1,7 @@
-{%extends "base.html"%}
-{%block title%}__ss___{%endblock%}
-
-
-{%  block content %}
- <h3>
- {{publicacion.genero }}
- {{publicacion.nombre}}
- {{publicacion.review}}
-
- </h3>
- {% if publicacion.imagen %}
- <p>
-     <img src="data:image/png;base64,{{ publicacion.imagen}}">
- </p>
-{% endif %}
-
-
-
- {%if publicacion.imagen%}
- <a>picho</a>
- <td scope="row"<img src="{{publicacion.imagen.url}}" style="height: 100px;width: 50px"alt="..."></td>
- {% else %} 
- <a>pcae</a>
- <td scope="row"<img src="" style="height:100px;width:50px"alt="no imagen"></td>
-{%endif%}
-
-
-
-{% endblock %}
+{%extends "base.html"%} {%block title%}__ss___{%endblock%} {% block content %}
+<h3>{{publicacion.genero }} {{publicacion.nombre}} {{publicacion.review}}</h3>
+{% if publicacion.imagen %}
+<p>
+  <img src="{{ publicacion.imagen.url}}" />
+</p>
+{% endif %} {% endblock %}

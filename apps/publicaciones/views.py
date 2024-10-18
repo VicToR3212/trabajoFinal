@@ -1,10 +1,12 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from django.contrib.auth import authenticate
 from .forms import CrearpublicacionForm
 from .models import Publicacion
+from django.contrib.auth.decorators import login_required
 
 
 # -----------------------------   CREAR PUBLICACION-----------------
+
+@login_required()
 def crear_publicacion(request):
 
     form = CrearpublicacionForm()
@@ -22,6 +24,7 @@ def crear_publicacion(request):
             publicacion.imagen = form.cleaned_data["imagen"]
 
             publicacion.save()
+            
             return redirect("apps.publicaciones:mostrarTodo_publicacion")
         else:
             print("invalido")
@@ -34,18 +37,13 @@ def crear_publicacion(request):
 
 
 def mostrarTodo_publicacion(request):
-
-    if request.method == "POST":
-        return render(request, "portada.html", {"peliculas": Publicacion.objects.all()})
-
     return render(request, "portada.html", {"peliculas": Publicacion.objects.all()})
 
 
 # -----------------------------   MOSTRAR PUBLICACION-----------------
 
-
+@login_required
 def mostrar_publicacion(request, pk):
-
     publicacion = Publicacion.objects.get(pk=pk)
     print(pk)
     return render(request, "ver.html", {"publicacion": publicacion})
@@ -53,7 +51,7 @@ def mostrar_publicacion(request, pk):
 
 # -----------------------------   EDITAR PUBLICACION-----------------
 
-
+#@login_required
 def editar_publicacion(request, pk):
 
     publicacion = Publicacion.objects.get(pk=pk)
@@ -64,7 +62,7 @@ def editar_publicacion(request, pk):
             "review": publicacion.review,
             "genero": publicacion.genero,
             "categoria": publicacion.categoria,
-            "imagen": publicacion.imagen,
+            
         }
     )
     data = {"form": CrearpublicacionForm(request.POST)}
@@ -77,10 +75,8 @@ def editar_publicacion(request, pk):
             publicacion.review = form.cleaned_data["review"]
             publicacion.genero = form.cleaned_data["genero"]
             publicacion.categoria = form.cleaned_data["categoria"]
-            publicacion.imagen = form.DateField["imagen"]
-
+            publicacion.imagen = form.cleaned_data["imagen"]
             publicacion.save()
-
             return redirect("apps.publicaciones:mostrarTodo_publicacion")
         else:
             print("invalido")
@@ -91,7 +87,7 @@ def editar_publicacion(request, pk):
 
 # -----------------------------   eliminar PUBLICACION-----------------
 
-
+@login_required
 def eliminar_publicacion(request, id):
     publicacion = get_object_or_404(Publicacion, id=id)
     ima=publicacion.nombre

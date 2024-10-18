@@ -1,50 +1,37 @@
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 from django.contrib.auth.models import User
 from django.contrib import messages
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import authenticate,login,logout
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 
 # --------------------crearusuario----------------------------------------------------------------
-
-
 def crear_usuario(request):
-
     if request.method == "GET":
-        return render(request, "registrarce.html", {"form": UserCreationForm})
+
+        return render(request, "registration/registrarce.html",{"form": UserCreationForm})
+         
     else:
+        if request.POST["password1"] != request.POST["password2"]:
+            return render(request, "registration/registrarce.html",{"form": UserCreationForm,'error':"contraseñas no coinciden"})
+        else:
+            user=User.objects.create_user(username=request.POST['username'],password=request.POST['password1'])
 
-        if request.POST["password1"] == request.POST["password2"]:
+            user.save()
+            login(request,user)
+            return redirect("apps.publicaciones:mostrarTodo_publicacion")
+            
 
-            try:
-
-                user = User.objects.create_user(
-                    username=request.POST["username"],
-                    password=request.POST["password1"],
-                )
-                user.save()
-                login(request, user)
-                return render(request, "portada.html")
-
-            except:
-                return render(
-                    request,
-                    "registrarce.html",
-                    {"form": UserCreationForm, "error": "usuario ya exsiste"},
-                )
-
-    return render(
-        request,
-        "registrarce.html",
-        {"form": UserCreationForm, "error": "contraseña no son iguales "},
-    )
+        
 
 
-# ------------------------------------------------------------------------------------------------------
 
 
-def logeo_deslogeo(request):
+# ---------------------------------------cerrar sesion---------------------------------------------------------------
+
+
+def salir (request):
     logout(request)
-    return redirect(request, "portada.html")
+    return redirect('/')
 
 
 # --------------------editar contraseña----------------------------------------------------------------
@@ -52,35 +39,20 @@ def logeo_deslogeo(request):
 
 # ------------------------------------------------------------------------------------------------------
 
-# --------------------editar nombre de usuario----------------------------------------------------------------
+# -----------------iniciar sesion  de usuario ------------------------------------------------------------------
+
+def acceder(request):
+    if request.method=='GET':
+        return render(request,"registration/login.html",{"form":AuthenticationForm})
+
+    else:
+        user=authenticate(username=request.POST[ 'username'],password=request.POST['password'])
+        if user is None:
+            return render(request,"registration/login.html",{"form":AuthenticationForm ,'error':"contraseñas o usuariio no coinciden"})
+        else:
+            login(request,user)
+            return redirect("apps.publicaciones:mostrarTodo_publicacion")
+            
 
 
 # ------------------------------------------------------------------------------------------------------
-# -----------------iniciar cesion  de usuario ------------------------------------------------------------------
-def iniciarsecion(request):
-    if request.method == "GET":
-        return render(request, "login.html", {"form": AuthenticationForm})
-    else:
-        return render(request, "login.html", {"form": AuthenticationForm})
-        user = authenticate(
-            request,
-            username=request.POST["username"],
-            password=request.POST["password"],
-        )
-        if user is None:
-
-            return render(
-                request,
-                "login.html",
-                {"form": UserCreationForm, "error": "contraseña "},
-            )
-        else:
-            login(request, user)
-
-        # return redirect(request,"portada.html",{'form':UserCreationForm, "error":'contraseña '})
-
-    return render(
-        request,
-        "registrarce.html",
-        {"form": UserCreationForm, "error": "contraseña no son iguales "},
-    )

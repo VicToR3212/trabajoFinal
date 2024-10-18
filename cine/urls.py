@@ -21,15 +21,18 @@ from .views import inicio
 from django.conf import settings
 from django.conf.urls.static import static
 
+
 urlpatterns = [
     path("admin/", admin.site.urls),
     #pagina principal 
     path("",inicio),
     #publicasiones
     path("publicaciones/",include('apps.publicaciones.urls')),
-    path("usuario/",include('apps.usuario.urls'))
+    #usuarios 
+    path("usuario/",include('apps.usuario.urls')),
     #sobrenosostros
-   # path("sobreNosotros/",),
+    
+
     #contacto
    # path("contacto/",)
 ]

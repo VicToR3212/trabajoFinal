@@ -1,10 +1,6 @@
 from django.urls import path
-from .views import (crear_publicacion,
-    mostrarTodo_publicacion,
-    editar_publicacion,
-    eliminar_publicacion,
-    mostrar_publicacion,
-)
+from .views import crear_publicacion,mostrarTodo_publicacion,editar_publicacion,eliminar_publicacion,mostrar_publicacion
+
 
 app_name = "apps.publicaciones"
 
@@ -19,4 +15,5 @@ urlpatterns = [
     path("editar/<int:pk>", editar_publicacion, name="editar_publicacion"),
     # eliminar una publicacion
     path("eliminar/<int:id>", eliminar_publicacion, name="eliminar_publicacion"),
+
 ]

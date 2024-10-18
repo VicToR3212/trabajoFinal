@@ -1,9 +1,14 @@
+
 from django.urls import path
-from .views import crear_usuario, iniciarsecion
+from .views import crear_usuario,acceder,salir
 
 app_name = "apps.usuario"
 
 urlpatterns = [
     path("crear/", crear_usuario, name="crear_usuario"),
-    path("iniciarcesion/", iniciarsecion, name="iniciarsecion"),
+    path("acceder/",acceder ,name='acceder'),
+    path("salir/",salir ,name='salir'),
+
+   
+
 ]
