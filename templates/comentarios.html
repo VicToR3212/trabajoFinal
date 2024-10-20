@@ -1,11 +1,8 @@
-{%extends "base.html"%} {%block title%}__ss___{%endblock%} {% block content %}
-<h3>{{publicacion.genero }} {{publicacion.nombre}} {{publicacion.review}}</h3>
-{% if publicacion.imagen %}
-<p>
-  <img src="{{ publicacion.imagen.url}}" />
-</p>
+{% extends 'base.html' %}
+{% load static %}
 
-{% endif %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'comentarios.css' %}">
 
 <div class="comment-box-container">
     <div class="comment-box-header">
@@ -20,4 +17,6 @@
             <input type="submit" value="Escribir como...">
         </div>
     </form>
-</div>{% endblock %}
+</div>
+
+{% endblock contenido %}

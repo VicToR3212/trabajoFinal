@@ -30,6 +30,8 @@ urlpatterns = [
     path("publicaciones/",include('apps.publicaciones.urls')),
     #usuarios 
     path("usuario/",include('apps.usuario.urls')),
+    #comentarios
+    path("comentarios/",include('apps.comentarios.urls')),
     #sobrenosostros
     
 
