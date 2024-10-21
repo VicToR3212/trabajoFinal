@@ -9,17 +9,20 @@ def crear_usuario(request):
     if request.method == "GET":
 
         return render(request, "registration/registrarce.html",{"form": UserCreationForm})
-         
     else:
         if request.POST["password1"] != request.POST["password2"]:
             return render(request, "registration/registrarce.html",{"form": UserCreationForm,'error':"contraseñas no coinciden"})
         else:
-            user=User.objects.create_user(username=request.POST['username'],password=request.POST['password1'])
-
-            user.save()
-            login(request,user)
-            return redirect("apps.publicaciones:mostrarTodo_publicacion")
             
+            if User.objects.filter(username=request.POST['username']).exists():
+                return render(request, "registration/registrarce.html",{"form": UserCreationForm,'error':"usuario ya existente"})
+                
+            else:
+                user=User.objects.create_user(username=request.POST['username'],password=request.POST['password1'])
+                user.save()
+                login(request,user)
+                return redirect("apps.publicaciones:mostrarTodo_publicacion")
+                
 
         
 

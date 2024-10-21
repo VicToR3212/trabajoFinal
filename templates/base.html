@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link
       rel="stylesheet"
-      href="{% static '/css/barranv.css' %}"
+      href="{% static '/css/styles.css' %}" 
       type="text/css"
       media="screen"
     />
@@ -16,10 +16,7 @@
     <header>
 
       <nav>
-        {% block title %} {% endblock %}
-      
-
-                
+        {% block title %} {% endblock %}        
  	 <ul>
     <li><a href="{% url 'apps.publicaciones:mostrarTodo_publicacion'%}">inicio</a>
 
